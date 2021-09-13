@@ -1,8 +1,11 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'pages/top_page.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -19,9 +22,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// TODO: iOS Firebaseプロジェクトの作成
-// TODO: Cloud Firestoreを設定
-// TODO: FlutterとFirebaseを連携
 // TODO: TopPageにメモのリストを表示
 // TODO: リストをタップでメモの詳細を確認可能に
 // TODO: メモ追加画面のUIを作成
