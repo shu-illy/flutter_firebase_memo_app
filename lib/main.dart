@@ -19,8 +19,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// TODO: メモクラスを定義
-// TODO: Android Firebaseプロジェクト
 // TODO: iOS Firebaseプロジェクトの作成
 // TODO: Cloud Firestoreを設定
 // TODO: FlutterとFirebaseを連携
