@@ -40,6 +40,39 @@ class _TopPageState extends State<TopPage> {
             itemBuilder: (context, index) {
               return ListTile(
                 title: Text(snapshot.data!.docs[index]['title']),
+                trailing: IconButton(
+                  icon: Icon(Icons.edit),
+                  onPressed: () {
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (context) {
+                        return SafeArea(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              ListTile(
+                                leading: Icon(
+                                  Icons.edit,
+                                  color: Colors.blueAccent,
+                                ),
+                                title: Text('編集'),
+                                onTap: () {},
+                              ),
+                              ListTile(
+                                leading: Icon(
+                                  Icons.delete,
+                                  color: Colors.redAccent,
+                                ),
+                                title: Text('削除'),
+                                onTap: () {},
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
                 onTap: () {
                   // 確認画面に遷移
                   Navigator.push(
