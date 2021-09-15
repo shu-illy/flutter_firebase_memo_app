@@ -1,14 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class AddMemoPage extends StatefulWidget {
-  const AddMemoPage({Key? key}) : super(key: key);
-
+class AddEditMemoPage extends StatefulWidget {
+  final QueryDocumentSnapshot? memo;
+  AddEditMemoPage({this.memo});
   @override
-  _AddMemoPageState createState() => _AddMemoPageState();
+  _AddEditMemoPageState createState() => _AddEditMemoPageState();
 }
 
-class _AddMemoPageState extends State<AddMemoPage> {
+class _AddEditMemoPageState extends State<AddEditMemoPage> {
   TextEditingController titleController = TextEditingController();
   TextEditingController detailController = TextEditingController();
 
@@ -21,12 +21,32 @@ class _AddMemoPageState extends State<AddMemoPage> {
     });
   }
 
+  Future<void> updateMemo() async {
+    var document =
+        FirebaseFirestore.instance.collection('memo').doc(widget.memo!.id);
+    document.update({
+      'title': titleController.text,
+      'detail': detailController.text,
+      'updated_time': Timestamp.now()
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.memo != null) {
+      titleController.text = widget.memo!['title'];
+      detailController.text = widget.memo!['detail'];
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('メモを追加'),
+        title: Text(widget.memo == null ? 'メモを追加' : 'メモを編集'),
       ),
       body: Center(
         child: Column(
@@ -77,11 +97,14 @@ class _AddMemoPageState extends State<AddMemoPage> {
                 alignment: Alignment.center,
                 child: ElevatedButton(
                   onPressed: () async {
-                    // メモ追加の処理
-                    await addMemo();
+                    if (widget.memo == null) {
+                      await addMemo();
+                    } else {
+                      await updateMemo();
+                    }
                     Navigator.pop(context);
                   },
-                  child: Text('追加'),
+                  child: Text(widget.memo == null ? '追加' : '保存'),
                 ),
               ),
             )

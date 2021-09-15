@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_firebase_memo_app/model/memo.dart';
+// import 'package:flutter_firebase_memo_app/model/memo.dart';
 
 class MemoPage extends StatelessWidget {
   final QueryDocumentSnapshot memo;
