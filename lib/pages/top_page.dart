@@ -14,25 +14,12 @@ class TopPage extends StatefulWidget {
 }
 
 class _TopPageState extends State<TopPage> {
-  List<Memo> memoList = [];
-
-  Future<void> getMemo() async {
-    var snapshot = await FirebaseFirestore.instance.collection('memo').get();
-    var docs = snapshot.docs;
-    docs.forEach((doc) {
-      memoList.add(Memo(
-        title: doc.data()['title'],
-        detail: doc.data()['detail'],
-      ));
-    });
-    setState(() {});
-  }
+  late CollectionReference memos;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    getMemo();
+    memos = FirebaseFirestore.instance.collection('memo');
   }
 
   @override
@@ -42,19 +29,32 @@ class _TopPageState extends State<TopPage> {
         centerTitle: true,
         title: Text('Flutter×Firebase'),
       ),
-      body: ListView.builder(
-          itemCount: memoList.length,
-          itemBuilder: (context, index) {
-            return ListTile(
-                title: Text(memoList[index].title),
+      body: StreamBuilder<QuerySnapshot>(
+        stream: memos.snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          }
+          return ListView.builder(
+            itemCount: snapshot.data!.docs.length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                title: Text(snapshot.data!.docs[index]['title']),
                 onTap: () {
                   // 確認画面に遷移
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => MemoPage(memoList[index])));
-                });
-          }),
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          MemoPage(snapshot.data!.docs[index]),
+                    ),
+                  );
+                },
+              );
+            },
+          );
+        },
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
