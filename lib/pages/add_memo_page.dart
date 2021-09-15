@@ -14,6 +14,7 @@ class _AddMemoPageState extends State<AddMemoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text('メモを追加'),
       ),
       body: Center(
