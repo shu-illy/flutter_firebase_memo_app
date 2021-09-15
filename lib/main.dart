@@ -32,5 +32,4 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// TODO: 編集画面を作成しメモを更新可能に
 // TODO: メモを削除可能に
