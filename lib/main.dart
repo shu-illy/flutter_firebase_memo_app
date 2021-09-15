@@ -32,7 +32,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// TODO: 追加ボタンタップでメモを追加加納に
 // TODO: 追加したメモをリアルタイム取得表示
 // TODO: リストの右側のボタンタップでボトムシートを表示
 // TODO: 編集画面を作成しメモを更新可能に
